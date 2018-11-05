@@ -51,6 +51,7 @@
 
   <!---****************************************** Sign Up Page  **********************************************************-->
   <div class="signUpPage" id="signUpPage" style="display: none;">
+    <div id="signUpDiv">
   <form id="signUp">
     
         <h2>Connect to your workmates</h2>
@@ -90,21 +91,23 @@
                   </select></td>
                 </tr>
             </table>
-            <br>
-                <button type="button" name="submitButton" value="Submit" id="submitButton">Submit</button>
-                <button type="button" id="homePageButton">HomePage</button>
+            
 
     
     <p id="passwordResult">
       
     </p>
   </form>
+    </div>
+    <br>
+                <button type="button" name="submitButton" value="Submit" id="submitButton">Submit</button>
+                <button type="button" id="homePageButton">HomePage</button>
   </div>
 
   <!-- Menu *****************************************************************************************************-->
   <div id="mentorShareMenu" style="display: none;">
     <ul id="menu">
-      <li><a href="#view">View Documents</a></li>
+      <li><a href="#view" id="viewDocumentsLink">View Documents</a></li>
       <li><a href="#upload">Upload Documents</a></li>
       <li><a href="#subscriberDocs">Subscriber Documents</a></li>
       <li><a href="#favorited">Favorited</a></li>
@@ -219,14 +222,14 @@
 
 <!--******************************************* Profile Management ***************************************************** -->  
 <div class="profileManagement" id="profileManagementPage" style="display: none;">
-  <form id="profile" style="display: inline-block;">
+  <form id="profile">
     <!--<img src="..\appFiles\img\Sparky.png" alt="Sparky" class="sparkyImg">-->
     
       <h2>Profile Management Page</h2>
-      <table id="profileDatabaseInformation" style="max-width: 60%">
+      <table id="profileDatabaseInformation" style="max-width: 50%;" style="display: inline-block;">
         
       </table>
-      <div id="profileInformationDiv">
+      <div id="profileInformationDiv" style="text-align: center;" style="display: inline-block;">
         
       </div>
       <br>
@@ -261,15 +264,46 @@
           </tr>
         
       </table>
-
-        <button type="button" name="submitButton" value="Submit" id="profileSubmitButton">Submit Changes</button>
-        <button type="button" id="editDashboardButton">Dashboard</button>
-        <p id="passwordResultEdit">
-          
-        </p>
+      <br>
+        
+          <button type="button" name="submitButton" value="Submit" id="profileSubmitButton">Submit Changes</button>
+          <button type="button" id="editDashboardButton">Dashboard</button>
+          <p id="passwordResultEdit">
+            
+          </p>
+        
   </form>
   </div>
 
+  <!--******************************************** Documents Page **************************************** -->
+  <div id="viewDocumentsPage" style="display: none;">
+    <div id="viewDocumentsContainer">
+      <h4>Uploaded Beacons:</h4>
+      <table id="tableHeaders" style="max-width: 90%">
+        <th>ArticleId</th>
+        <th>CreatorId</th>
+        <th>FName</th>
+        <th>LName</th>
+        <th>CreationDate</th>
+        <th>TimeShared</th>
+        <th>Genre</th>
+        <th>ArticleName</th>
+        <th>ArticleUrl</th>
+        <th>PageLength</th>
+      </table>
+      <table id="viewDocumentsTable" style="max-width: 90%"></table>
+      <div id="viewDocumentsDiv"></div>
+      <br>
+      <label>Enter Article ID to delete</label>
+      <br>
+      <input type="text" name="ArticleID">
+    </div>
+    <button id="viewDocsDeleteArticleButton">Delete Article</button>
+    <button id="viewDocsDashboardButton">Dashboard</button>
+    
+  </div>
+
+  <!-- ***************************************** End of Page Script Tags ********************************************** -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="mentorJS.js"></script>
