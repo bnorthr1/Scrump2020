@@ -12,9 +12,12 @@
 }
 
 #signUpPage {
-	float: center;
-}
+	text-align: center;
 
+}
+#signUpDiv{
+	display: inline-block;
+}
 #msLoginHeader {
 	margin-top: 10%;
 }
@@ -25,6 +28,42 @@
 
 #signUpInfo{
 	float: center;
+}
+
+#profileManagementPage{
+	text-align: center;
+}
+#profileDatabaseInformation{
+	display: inline-block;
+}
+#profileTable{
+	text-align: center;
+}
+#profileInformationDiv{
+	display: inline-block;
+}
+#profileTable{
+	
+    display: inline-block;
+}
+#profileEditButtons{
+	display: inline-block;
+}
+#viewDocumentsPage{
+	text-align: center;
+}
+#viewDocumentsContainer{
+	text-align: center;
+}
+#viewDocumentsTable, #viewDocumentsDiv, #tableHeaders{
+	display: inline-block;
+}
+#tableHeaders{
+	border: 3px;
+	border-collapse: separate;
+	border-spacing: 35px;
+	padding-right: 10;
+
 }
 
 /* Classes */
