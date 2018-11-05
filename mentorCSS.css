@@ -1,0 +1,80 @@
+/* MentorShare CSS file */
+
+/* Id */
+#searchBar {
+	float: left;
+}
+
+#menu {
+	float: center;	
+	margin-right: 16px;
+	margin-left: 8px;
+}
+
+#signUpPage {
+	float: center;
+}
+
+#msLoginHeader {
+	margin-top: 10%;
+}
+
+#mainSitePage{
+	text-align: center;
+}
+
+#signUpInfo{
+	float: center;
+}
+
+/* Classes */
+.btn-group {
+	float: center;
+}
+
+.documentViewer {
+	float: left;
+	margin: 15px;
+}
+
+/* Broad css changes */
+body {    
+    
+    font-family: 'Niramit', sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+table{
+	text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+img {
+	height: 200px;
+	width: 223px;
+}
+
+button {
+	border-radius: 12px;
+	width: 10%;
+	border: 2px solid white;
+	color: white;
+	background-color: dodgerblue;
+	transition-duration: .4s;
+	padding:0.5em 1.7em;
+    margin:0 0.3em 0.3em 0;
+}
+
+button:hover {	
+	border: 2px solid dodgerblue;
+	color: dodgerblue;
+	background-color: white;
+}
