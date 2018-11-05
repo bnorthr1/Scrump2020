@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Our CSS File -->
+    <link rel="stylesheet" href="mentorCSS.css">
+
+
+    <title>MentorShare</title>
+  </head>
+  <body>
+    <h3>MentorShare</h3>
+
+  <!-- Main Site Login ********************************************************************************************** -->
+  <div id="mainSitePage" style="display: block;">
+    <form id="loginForm" action="action_page.php">
+            <label for="userName"><b>Username:</b></label>
+            <br>
+            <input type="text" id="userNameLoginId" placeholder="Enter Username" name="userName" required>
+            <br>
+            <label for="password"><b>Password:</b></label>
+            <br>
+            <input type="password" id="passwordLoginId"placeholder="Enter Password" name="password" required>
+            <br>
+            <button type="button" id="userNamePasswordLogin" onclick="displayHomePage()">Login</button>
+            <button type="button" id="signUpButton">Sign Up</button>
+            <!-- FOR TESTING PURPOSES -->
+            <!--<button type="button" id="dashboardButton" onclick="runDashboard()">Dashboard</button>-->
+            <label>
+            <br>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+            <p id="signUpOutput"></p>
+
+              <div class="container">
+                <br>
+              <a href="#" style="text-align: center;">Forgot password?</a>
+            </div>
+          </div>
+
+          <pre  id="output" style="display: none;"></pre>
+        <br>
+    </form>
+  </div>
+
+  <!---****************************************** Sign Up Page  **********************************************************-->
+  <div class="signUpPage" id="signUpPage" style="display: none;">
+  <form id="signUp">
+    
+        <h2>Connect to your workmates</h2>
+            <table id="signUpInfo">
+                <tr>
+                    <td>Username: </td>
+                    <td><input type="text" id="userNameTextBox" name="userNameTextBox" placeholder="User Name" required></td>
+                </tr>
+                <tr>
+                    <td>First Name: </td>
+                    <td><input type="text" id="firstNameTextBox" name="firstNameTextBox" placeholder="First Name" required></td>
+                </tr>
+                <tr>
+                    <td>Last Name: </td>
+                    <td><input type="text" id="lastNameTextBox" name="lastNameTextBox" placeholder="Last Name" required></td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td><input type="text" name="email" id="emailTextBox" placeholder="Email" required></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="text" name="password" id="passwordValue" placeholder="Password" required></td>
+                </tr>
+                    <tr>
+                        <td>Confirm Password: </td>
+                        <td><input type="text" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required></td>
+                    </tr>
+                     <tr>
+                    <td>Job Type: </td>
+                    <td><select name="jobTitle" id="jobTitleValue">
+                    <option value="Life_Insurance">Life Insurance</option>
+                    <option value="Banking">Banking</option>
+                    <option value="Financial_Advice">Financial Advice</option>
+                    <option value="Property">Property</option>
+                    <option value="Programming">Programming</option>
+                  </select></td>
+                </tr>
+            </table>
+            <br>
+                <button type="button" name="submitButton" value="Submit" id="submitButton">Submit</button>
+                <button type="button" id="homePageButton">HomePage</button>
+
+    
+    <p id="passwordResult">
+      
+    </p>
+  </form>
+  </div>
+
+  <!-- Menu *****************************************************************************************************-->
+  <div id="mentorShareMenu" style="display: none;">
+    <ul id="menu">
+      <li><a href="#view">View Documents</a></li>
+      <li><a href="#upload">Upload Documents</a></li>
+      <li><a href="#subscriberDocs">Subscriber Documents</a></li>
+      <li><a href="#favorited">Favorited</a></li>
+      <hr>
+      <li><a href="#profile" id="profileLink">Profile</a></li>
+      <li><a href="#options">Options</a></li>
+      <li><a href="#logout">Logout</a></li>
+      <hr>
+      <li><a href="#help">Help</a></li>
+    </ul>
+
+    <!-- Search menu genre button -->
+    <div id="menuGenre" class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        Genre
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <!-- dropdown menu links -->
+        <li>Banking</li>
+        <li>Investments</li>
+        <li>Property</li>
+        <li>Life Insurance</li>
+        <li>Financial Advice</li>
+        <li>Programming</li>
+      </ul>
+    </div>
+
+    <!-- Search menu timeframe button -->
+    <div class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        Select Timeframe
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <!-- dropdown menu links -->
+        <li>Most Recent</li>
+        <li>This week</li>
+        <li>This month</li>
+        <li>Oldest</li>
+      </ul>
+    </div>
+
+    <!-- Search menu size -->
+    <div class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        Select Size
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <!-- dropdown menu links -->
+        <li>&lt;1 Page</li>
+        <li>2-5 Pages</li>
+        <li>&gt;5 Pages</li>
+      </ul>
+    </div>
+    
+    <!-- Display document info -->
+    <div class="row-fluid">
+            <ul class="thumbnails">
+              <li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li>
+              <li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li>
+<li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li>
+				
+
+              <li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+    <!-- Search bar -->
+    <form id ="searchBar" class="navbar-search pull-left">
+      <input type="text" class="search-query" placeholder="Search">
+    </form>
+  </div> <!--End of MentorShareMenu -->
+
+
+<!--******************************************* Profile Management ***************************************************** -->  
+<div class="profileManagement" id="profileManagementPage" style="display: none;">
+  <form id="profile" style="display: inline-block;">
+    <!--<img src="..\appFiles\img\Sparky.png" alt="Sparky" class="sparkyImg">-->
+    
+      <h2>Profile Management Page</h2>
+      <table id="profileDatabaseInformation" style="max-width: 60%">
+        
+      </table>
+      <div id="profileInformationDiv">
+        
+      </div>
+      <br>
+      <table id="profileTable">
+        <tr>
+          <td>User Name: </td>
+          <td><label type="text" id="userNameTextBoxEdit" name="userNameTextBox" placeholder="User Name"></label></td>
+        </tr>
+        <tr>
+          <td>First Name: </td>
+          <td><input type="text" id="firstNameTextBoxEdit" name="firstNameTextBox" placeholder="First Name" required></td>
+        </tr>
+        <tr>
+          <td>Last Name: </td>
+          <td><input type="text" id="lastNameTextBoxEdit" name="lastNameTextBox" placeholder="Last Name" required></td>
+        </tr>
+        <tr>
+          <td>Job Title: </td>
+          <td><input type="text" id="jobTitleTextBoxEdit" name="jobTitle" placeholder="jobTitle" required></td>
+        </tr>
+        <tr>
+          <td>Email: </td>
+          <td><input type="text" id="emailTextBoxEdit" name="emailTextBoxEdit" placeholder="Email" required></td>
+        </tr>
+        <tr>
+          <td>Password: </td>
+          <td><input type="text" name="passwordEdit" id="passwordEdit" placeholder="Password" required></td>
+        </tr>
+          <tr>
+            <td>Confirm Password: </td>
+            <td><input type="text" name="confirmPasswordEdit" id="confirmPasswordEdit" placeholder="Confirm Password" required></td>
+          </tr>
+        
+      </table>
+
+        <button type="button" name="submitButton" value="Submit" id="profileSubmitButton">Submit Changes</button>
+        <button type="button" id="editDashboardButton">Dashboard</button>
+        <p id="passwordResultEdit">
+          
+        </p>
+  </form>
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="mentorJS.js"></script>
+    <script src="https://mysqljs.com/mysql.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+  </body>
+</html>
