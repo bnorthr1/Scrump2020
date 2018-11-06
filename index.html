@@ -105,7 +105,7 @@
   <div id="mentorShareMenu" style="display: none;">
     <ul id="menu">
       <li><a href="#view">View Documents</a></li>
-      <li><a href="#upload">Upload Documents</a></li>
+      <li><a href="#upload" id="uploadDocumentLink">Upload Documents</a></li>
       <li><a href="#subscriberDocs">Subscriber Documents</a></li>
       <li><a href="#favorited">Favorited</a></li>
       <hr>
@@ -267,6 +267,44 @@
         <p id="passwordResultEdit">
           
         </p>
+  </form>
+  </div>
+
+  <!---************************************** Document Upload Page  *******************************************************-->
+  <div class="documentUploadPage" id="documentUploadPage" style="display: none;">
+  <form id="uploadDocument">
+    
+        <h2>Upload a Document</h2>
+            <table id="signUpInfo">
+                <tr>
+                    <td>Document URL: </td>
+                    <td><input type="text" id="documentURLTextBox" name="documentURLTextBox" placeholder="Ex. http://drive.google.com" required></td>
+                </tr>
+                <tr>
+                    <td>Beacon Title: </td>
+                    <td><input type="text" id="articleTitleTextBox" name="articleTitleTextBox" placeholder="Article Title" required></td>
+                </tr>
+                <tr>
+                    <td>Page Number: </td>
+                    <td><input type="text" id="pageNumberTextBox" name="pageNumber"  placeholder="Page Number" required></td>
+                </tr>  
+                <tr>
+                	<td>Genre: </td>
+                	<td><select name="genereSelect" id="genreSelectBox">
+                    <option value="Life_Insurance">Advice</option>
+                    <option value="Banking">Self-Help</option>
+                    <option value="Financial_Advice">Motivational</option>
+                  </select></td>
+                </tr>
+            </table>
+            <br>
+                <button type="button" name="uploadButton" value="Upload" id="uploadButton">Upload</button>
+                <button type="button" id="homePageButton">HomePage</button>
+
+    
+    <p id="passwordResult">
+      
+    </p>
   </form>
   </div>
 
