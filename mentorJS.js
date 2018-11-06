@@ -7,6 +7,7 @@ var loginButton = document.getElementById('userNamePasswordLogin');
 var viewDocumentsDashboardButton = document.getElementById('viewDocsDashboardButton');
 var profileLink = document.getElementById('profileLink');
 var createUser = document.getElementById('submitButton');
+var documentUploadPage = document.getElementById('documentUploadPage');
 
 var uploadDocument = document.getElementById('uploadDocumentLink')
 var viewDocuments = document.getElementById('viewDocumentsLink');
@@ -44,6 +45,7 @@ function displayMainHomePage()
     profileEditPage.style.display = 'none';
     signUpPage.style.display = 'none';
     viewDocumentsMenu.style.display = 'none';
+    documentUploadPage.style.display = 'none';
 }
 //******************************* Display Profile Management Page **************************************
 function displayProfileManagementPage(){
@@ -69,8 +71,6 @@ function displayDocumentsPage(){
 
 //******************************** Display Upload Document Page **************************************************
 function displayUploadDocumentPage(){
-    
-    var documentUploadPage = document.getElementById('documentUploadPage');
 
     mentorShareMenu.style.display = 'none';
     documentUploadPage.style.display = 'block';
