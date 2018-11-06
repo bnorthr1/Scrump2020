@@ -4,15 +4,20 @@
 var signUpButton = document.getElementById('signUpButton');
 var editProfileSubmitButton = document.getElementById('profileSubmitButton');
 var loginButton = document.getElementById('userNamePasswordLogin');
+var viewDocumentsDashboardButton = document.getElementById('viewDocsDashboardButton');
 var profileLink = document.getElementById('profileLink');
 var createUser = document.getElementById('submitButton');
+
 var uploadDocument = document.getElementById('uploadDocumentLink')
+var viewDocuments = document.getElementById('viewDocumentsLink');
+
 
 var mainPage = document.getElementById('mainSitePage');
 var mentorShareMenu = document.getElementById('mentorShareMenu');
 var profilePage = document.getElementById('mentorShareMenu');
 var profileEditPage = document.getElementById('profileManagementPage');
 var userName = document.getElementById('userNameTextBoxEdit');
+var viewDocumentsMenu = document.getElementById('viewDocumentsPage');
 
 //event listeners
 signUpButton.addEventListener('click', displaySignUp);
@@ -20,14 +25,26 @@ loginButton.addEventListener('click', checkUsernamePassword);
 profileLink.addEventListener('click', displayProfileManagementPage);
 editProfileSubmitButton.addEventListener('click', editProfileFunction);
 createUser.addEventListener('click', createUserProfile);
-uploadDocument.addEventListener('click', displayUploadDocumentPage);
 
-//***************************** Display Home page ******************************************************
+uploadDocument.addEventListener('click', displayUploadDocumentPage);
+viewDocuments.addEventListener('click', displayDocumentsPage);
+viewDocumentsDashboardButton.addEventListener('click', displayMainHomePage);
+
+
+//***************************** Display Home page post login ******************************************************
 function displayHomePage()
 {
     checkUsernamePassword();
 }
 
+//****************************** Display Home Page general use *********************************************
+function displayMainHomePage()
+{
+    profilePage.style.display = 'block';
+    profileEditPage.style.display = 'none';
+    signUpPage.style.display = 'none';
+    viewDocumentsMenu.style.display = 'none';
+}
 //******************************* Display Profile Management Page **************************************
 function displayProfileManagementPage(){
     mentorShareMenu.style.display = 'none';
@@ -42,6 +59,12 @@ function displaySignUp(){
 
     mainPage.style.display = 'none';
     signUpPage.style.display = 'block';
+}
+//****************************** Display View Documents Page ************************************************
+function displayDocumentsPage(){
+    mentorShareMenu.style.display = 'none';
+    viewDocumentsMenu.style.display = 'block';
+    populateDocumentsTable();
 }
 
 //******************************** Display Upload Document Page **************************************************
@@ -196,11 +219,22 @@ function editProfileFunction()
     }
 }
 
-//****************************** Clear Data Tables *****************************************
+//****************************** Clear Profile Data Tables *****************************************
 function clearProfileDataTable(){
         var profileTableResults = document.getElementById('profileDatabaseInformation');
+        var viewDocumentsTableResults = document.getElementById('viewDocumentsTable');
+        var viewDocumentsDiv = document.getElementById('viewDocumentsDiv')
         profileTableResults.innerHTML = "";
+        viewDocumentsTableResults.innerHTML = "";
+        //viewDocumentsDiv.innerHTML = "";
     }
+function clearViewDocumentsTable(){
+        var viewDocumentsTableResults = document.getElementById('viewDocumentsTable');
+        var viewDocumentsDiv = document.getElementById('viewDocumentsDiv');
+        //profileTableResults.innerHTML = "";
+        viewDocumentsTableResults.innerHTML = "";
+        //viewDocumentsDiv.innerHTML = "";
+}
 
 //*********************************************** Profile Information Table *************************************
  function profileResultsPopulated(){
@@ -265,12 +299,13 @@ MySql.Execute(
                 table.appendChild(tableBody);
                 table.setAttribute("border", "3");
                 table.style.borderCollapse="collapse";
+                
                 body.appendChild(table);
             }
         }
 
     }
-
+//************************************** Create User Profile *************************************************
 function createUserProfile()
 {
     //Variables
@@ -291,7 +326,79 @@ function createUserProfile()
     "sql3258453",                             // database to use
     insertStatement.concat(username.concat(addApostropheCommaApostrophe.concat(firstName.concat(addApostropheCommaApostrophe.concat(lastName.concat(addApostropheCommaApostrophe.concat(email.concat(addApostropheCommaApostrophe.concat(password.concat(addApostropheCommaApostrophe.concat(jobTitle.concat(endTag)))))))))))),
     function (data) {
-    mainPage.style.display = 'none';
-    profilePage.style.display = 'block';
+    //mainPage.style.display = 'none';
+    //profilePage.style.display = 'block';
+    displayMainHomePage();
     });
 }
+
+
+//************************************* View Documents Table *********************************************************
+function populateDocumentsTable(){
+    var selectStatement = "Select * from MentorShareArticle"
+    var addApostrophe = "'";
+    //var userNameVal = userName.innerHTML;
+
+//userForm.style.display = 'block';
+MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                                     // database to use
+                                                            // SQL query string
+            selectStatement,
+            function (data) {
+                processProfileQueryResult(data);
+            }
+        );
+
+//runs preset queryResult function to create a table and insert query values
+
+        function processProfileQueryResult(queryReturned) {
+            debugger;
+            clearViewDocumentsTable();
+            //tableHeaders.style.display = 'block';
+            if (!queryReturned.Success) {
+                alert(queryReturned.Error)
+            } else {
+
+                var table, tableBody, tableHeader, tableRow;
+                var rows = queryReturned.length;
+
+                var body        = document.getElementById("viewDocumentsDiv");
+                table       = document.getElementById("viewDocumentsTable");
+                tableBody   = document.createElement("tbody");
+                tableHeader = document.createElement("tr");
+
+                for (var i=0; i<queryReturned.Result[0].length; i++) {
+                    var cell     = document.createElement("th");
+                    var cellText = document.createTextNode(queryReturned.Result[0].keys()[i]);
+                    cell.appendChild(cellText);
+                    tableHeader.appendChild(cell);
+                }
+                tableBody.appendChild(tableHeader);
+
+                for (var i=0; i<queryReturned.Result.length; i++) {
+                    var tableRow = document.createElement("tr");
+
+                    for (var j=0; j<Object.keys(queryReturned.Result[i]).length; j++) {
+                        var cell     = document.createElement("td");
+                        var cellText = document.createTextNode(Object.values(queryReturned.Result[i])[j]);
+                        cell.style.width = '5%';
+                        cell.appendChild(cellText);
+                        tableRow.appendChild(cell);
+                    }
+
+                    tableBody.appendChild(tableRow);
+                }//cell.style.width = 20%;
+
+                table.setAttribute("padding-right", "10");
+                table.appendChild(tableBody);
+                table.setAttribute("border", "3");
+                table.style.borderCollapse="collapse";
+                
+                body.appendChild(table);
+            }
+        }
+}
+
