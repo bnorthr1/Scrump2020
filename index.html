@@ -30,10 +30,10 @@
             <br>
             <button type="button" id="userNamePasswordLogin" onclick="displayHomePage()">Login</button>
             <button type="button" id="signUpButton">Sign Up</button>
+            <br>
             <!-- FOR TESTING PURPOSES -->
             <!--<button type="button" id="dashboardButton" onclick="runDashboard()">Dashboard</button>-->
             <label>
-            <br>
             <input type="checkbox" checked="checked" name="remember"> Remember me
             </label>
             <p id="signUpOutput"></p>
@@ -101,7 +101,7 @@
     </div>
     <br>
                 <button type="button" name="submitButton" value="Submit" id="submitButton">Submit</button>
-                <button type="button" id="homePageButton">HomePage</button>
+                <button type="button" id="homePageButton" onclick="window.location.reload()">HomePage</button>
   </div>
 
   <!-- Menu *****************************************************************************************************-->
@@ -267,8 +267,8 @@
       </table>
       <br>
         
-          <button type="button" name="submitButton" value="Submit" id="profileSubmitButton">Submit Changes</button>
-          <button type="button" id="editDashboardButton">Dashboard</button>
+          <button type="button" name="submitButton" value="Submit" id="profileSubmitButton" style="width: auto;">Submit Changes</button>
+          <button type="button" id="editDashboardButton" onclick="displayMainHomePage();" style="width: auto;">Dashboard</button>
           <p id="passwordResultEdit">
             
           </p>
@@ -278,44 +278,54 @@
 
 
   <!---************************************** Document Upload Page  *******************************************************-->
-  <div class="documentUploadPage" id="documentUploadPage" style="display: none;">
-  <form id="uploadDocument">
-    
-        <h2>Upload a Document</h2>
-            <table id="signUpInfo">
-                <tr>
-                    <td>Document URL: </td>
-                    <td><input type="text" id="documentURLTextBox" name="documentURLTextBox" placeholder="Ex. http://drive.google.com" required></td>
-                </tr>
-                <tr>
-                    <td>Beacon Title: </td>
-                    <td><input type="text" id="articleTitleTextBox" name="articleTitleTextBox" placeholder="Article Title" required></td>
-                </tr>
-                <tr>
-                    <td>Page Number: </td>
-                    <td><input type="text" id="pageNumberTextBox" name="pageNumber"  placeholder="Page Number" required></td>
-                </tr>  
-                <tr>
-                	<td>Genre: </td>
-                	<td><select name="genereSelect" id="genreSelectBox">
-                    <option value="Life_Insurance">Advice</option>
-                    <option value="Banking">Self-Help</option>
-                    <option value="Financial_Advice">Motivational</option>
-                  </select></td>
-                </tr>
-            </table>
-            <br>
-                <button type="button" name="uploadButton" value="Upload" id="uploadButton">Upload</button>
-                <button id="viewDocsDashboardButton">Dashboard</button>
+  <div class="documentUploadPage" id="documentUploadPage" style="display: none;" style="text-align: center;">
+    <div id="documentUploadPageDiv">
+      <form id="uploadDocument">
+        
+            <h2>Upload a Document</h2>
+                <table id="signUpInfo">
+                    <tr>
+                        <td>Document URL: </td>
+                        <td><input type="text" id="documentURLTextBox" placeholder="Ex. http://drive.google.com" required></td>
+                    </tr>
+                    <tr>
+                        <td>Beacon Title: </td>
+                        <td><input type="text" id="articleTitleTextBox" placeholder="Article Title" required></td>
+                    </tr>
+                    <tr>
+                        <td>Page Number: </td>
+                        <td><input type="text" id="pageNumberTextBox" placeholder="Page Number" required></td>
+                    </tr>  
+                    <tr>
+                    	<td>Genre: </td>
+                      <td><select name="genereSelect" id="genreSelectBox">
+                        <option value="Life_Insurance">Life_Insurance</option>
+                        <option value="Banking">Banking</option>
+                        <option value="Financial_Advice">Financial_Advice</option>
+                        <option value="Investments">Investments</option>
+                        <option value="Programming">Programming</option>
+                        <option value="Property">Property</option>
+                      </select></td>
+                    </tr>
+                </table>
+                <br>
+                    <button type="button" name="uploadButton" value="Upload" id="uploadButton" style="width: auto;">Upload</button>
+                    <button id="viewDocsDashboardButton" style="width: auto;">Dashboard</button>
+                    <br>
+                    <label id="idLabelValue"></label>
+                    <label id="fNameLabelValue"></label>
+                    <label id="lNameLabelValue"></label>
+                    <p id="sqlOutput"></p>
 
-    
-    <p id="passwordResult">
-      
-    </p>
-  </form>
+        
+        <p id="passwordResult">
+          
+        </p>
+      </form>
+    </div>
   </div>
 
-  <!--******************************************** Documents Page **************************************** -->
+  <!--******************************************** View Documents Page **************************************** -->
   <div id="viewDocumentsPage" style="display: none;">
     <div id="viewDocumentsContainer">
       <h4>Uploaded Beacons:</h4>
@@ -336,10 +346,13 @@
       <br>
       <label>Enter Article ID to delete</label>
       <br>
-      <input type="text" name="ArticleID">
+      <input type="text" id="articleIdToDelete" name="ArticleID">
+      <br>
+      <button id="viewDocsDeleteArticleButton" style="width: auto;">Delete Article</button>
+      <button id="viewDocsDashboardButton" style="width: auto;" onclick="displayMainHomePage()">Dashboard</button>
     </div>
-    <button id="viewDocsDeleteArticleButton">Delete Article</button>
-    <button id="viewDocsDashboardButton">Dashboard</button>
+    
+    <p id="deleteResult"></p>
     
   </div>
 
