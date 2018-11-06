@@ -7,7 +7,10 @@ var loginButton = document.getElementById('userNamePasswordLogin');
 var viewDocumentsDashboardButton = document.getElementById('viewDocsDashboardButton');
 var profileLink = document.getElementById('profileLink');
 var createUser = document.getElementById('submitButton');
+
+var uploadDocument = document.getElementById('uploadDocumentLink')
 var viewDocuments = document.getElementById('viewDocumentsLink');
+
 
 var mainPage = document.getElementById('mainSitePage');
 var mentorShareMenu = document.getElementById('mentorShareMenu');
@@ -22,8 +25,11 @@ loginButton.addEventListener('click', checkUsernamePassword);
 profileLink.addEventListener('click', displayProfileManagementPage);
 editProfileSubmitButton.addEventListener('click', editProfileFunction);
 createUser.addEventListener('click', createUserProfile);
+
+uploadDocument.addEventListener('click', displayUploadDocumentPage);
 viewDocuments.addEventListener('click', displayDocumentsPage);
 viewDocumentsDashboardButton.addEventListener('click', displayMainHomePage);
+
 
 //***************************** Display Home page post login ******************************************************
 function displayHomePage()
@@ -59,6 +65,15 @@ function displayDocumentsPage(){
     mentorShareMenu.style.display = 'none';
     viewDocumentsMenu.style.display = 'block';
     populateDocumentsTable();
+}
+
+//******************************** Display Upload Document Page **************************************************
+function displayUploadDocumentPage(){
+    
+    var documentUploadPage = document.getElementById('documentUploadPage');
+
+    mentorShareMenu.style.display = 'none';
+    documentUploadPage.style.display = 'block';
 }
 
 //*****************************     Sign Up Function           *****************************************
@@ -100,12 +115,6 @@ function displayDocumentsPage(){
 
 }
 */
-
-//Accepts a users HTML from Scribd and uploads it as a beacon
-function uploadNewBeacon()
-{
-
-}
 
 //*****************************     LoginFunction           *****************************************
 function checkUsernamePassword()
@@ -323,6 +332,7 @@ function createUserProfile()
     });
 }
 
+
 //************************************* View Documents Table *********************************************************
 function populateDocumentsTable(){
     var selectStatement = "Select * from MentorShareArticle"
@@ -391,3 +401,4 @@ MySql.Execute(
             }
         }
 }
+
