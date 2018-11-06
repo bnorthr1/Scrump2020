@@ -6,6 +6,7 @@ var editProfileSubmitButton = document.getElementById('profileSubmitButton');
 var loginButton = document.getElementById('userNamePasswordLogin');
 var profileLink = document.getElementById('profileLink');
 var createUser = document.getElementById('submitButton');
+var uploadDocument = document.getElementById('uploadDocumentLink')
 
 var mainPage = document.getElementById('mainSitePage');
 var mentorShareMenu = document.getElementById('mentorShareMenu');
@@ -19,6 +20,7 @@ loginButton.addEventListener('click', checkUsernamePassword);
 profileLink.addEventListener('click', displayProfileManagementPage);
 editProfileSubmitButton.addEventListener('click', editProfileFunction);
 createUser.addEventListener('click', createUserProfile);
+uploadDocument.addEventListener('click', displayUploadDocumentPage);
 
 //***************************** Display Home page ******************************************************
 function displayHomePage()
@@ -40,6 +42,15 @@ function displaySignUp(){
 
     mainPage.style.display = 'none';
     signUpPage.style.display = 'block';
+}
+
+//******************************** Display Upload Document Page **************************************************
+function displayUploadDocumentPage(){
+    
+    var documentUploadPage = document.getElementById('documentUploadPage');
+
+    mentorShareMenu.style.display = 'none';
+    documentUploadPage.style.display = 'block';
 }
 
 //*****************************     Sign Up Function           *****************************************
@@ -81,12 +92,6 @@ function displaySignUp(){
 
 }
 */
-
-//Accepts a users HTML from Scribd and uploads it as a beacon
-function uploadNewBeacon()
-{
-
-}
 
 //*****************************     LoginFunction           *****************************************
 function checkUsernamePassword()
