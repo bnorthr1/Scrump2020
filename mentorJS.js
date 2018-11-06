@@ -8,9 +8,18 @@ var viewDocumentsDashboardButton = document.getElementById('viewDocsDashboardBut
 var profileLink = document.getElementById('profileLink');
 var createUser = document.getElementById('submitButton');
 var documentUploadPage = document.getElementById('documentUploadPage');
+var deleteButton = document.getElementById('viewDocsDeleteArticleButton');
+var uploadButton = document.getElementById('uploadButton');
 
 var uploadDocument = document.getElementById('uploadDocumentLink')
 var viewDocuments = document.getElementById('viewDocumentsLink');
+var idVal;
+var fNameVal;
+var lNameVal;
+
+var userID;
+var userFname;
+var userLname;
 
 
 var mainPage = document.getElementById('mainSitePage');
@@ -30,12 +39,15 @@ createUser.addEventListener('click', createUserProfile);
 uploadDocument.addEventListener('click', displayUploadDocumentPage);
 viewDocuments.addEventListener('click', displayDocumentsPage);
 viewDocumentsDashboardButton.addEventListener('click', displayMainHomePage);
+deleteButton.addEventListener('click', deleteArticle);
+uploadButton.addEventListener('click', uploadArticle);
 
 
 //***************************** Display Home page post login ******************************************************
 function displayHomePage()
 {
     checkUsernamePassword();
+
 }
 
 //****************************** Display Home Page general use *********************************************
@@ -46,9 +58,12 @@ function displayMainHomePage()
     signUpPage.style.display = 'none';
     viewDocumentsMenu.style.display = 'none';
     documentUploadPage.style.display = 'none';
+    profileResultsPopulated();
+    
 }
 //******************************* Display Profile Management Page **************************************
 function displayProfileManagementPage(){
+
     mentorShareMenu.style.display = 'none';
     profileEditPage.style.display = 'block';
     profileResultsPopulated();
@@ -138,6 +153,7 @@ function checkUsernamePassword()
             mainPage.style.display = 'none';
             profilePage.style.display = 'block';
             userName.innerHTML = document.getElementById('userNameLoginId').value;
+            profileResultsPopulated();
         }
         else
         {
@@ -222,10 +238,10 @@ function editProfileFunction()
 //****************************** Clear Profile Data Tables *****************************************
 function clearProfileDataTable(){
         var profileTableResults = document.getElementById('profileDatabaseInformation');
-        var viewDocumentsTableResults = document.getElementById('viewDocumentsTable');
-        var viewDocumentsDiv = document.getElementById('viewDocumentsDiv')
+        //var viewDocumentsTableResults = document.getElementById('viewDocumentsTable');
+        //var viewDocumentsDiv = document.getElementById('viewDocumentsDiv')
         profileTableResults.innerHTML = "";
-        viewDocumentsTableResults.innerHTML = "";
+        //viewDocumentsTableResults.innerHTML = "";
         //viewDocumentsDiv.innerHTML = "";
     }
 function clearViewDocumentsTable(){
@@ -239,10 +255,10 @@ function clearViewDocumentsTable(){
 //*********************************************** Profile Information Table *************************************
  function profileResultsPopulated(){
 //var selectStatement = "Select UserName, FirstName, LastName, JobTitle, Email, UserPassword, FROM MentorShareUser WHERE UserName = '";
-var selectStatement = "Select UserName, FirstName, LastName, JobTitle, Email, UserPassword FROM MentorShareUser WHERE UserName = '"
+var selectStatement = "Select UserId, UserName, FirstName, LastName, JobTitle, Email, UserPassword FROM MentorShareUser WHERE UserName = '"
 var addApostrophe = "'";
 var userNameVal = userName.innerHTML;
-
+clearProfileDataTable();
 //userForm.style.display = 'block';
 MySql.Execute(
         "sql3.freemysqlhosting.net",              // mySQL server
@@ -267,11 +283,13 @@ MySql.Execute(
 
                 var table, tableBody, tableHeader, tableRow;
                 var rows = queryReturned.length;
+                
 
                 var body        = document.getElementById("profileInformationDiv");
                 table       = document.getElementById("profileDatabaseInformation");
                 tableBody   = document.createElement("tbody");
                 tableHeader = document.createElement("tr");
+                var arrayValues = [5];
 
                 for (var i=0; i<queryReturned.Result[0].length; i++) {
                     var cell     = document.createElement("th");
@@ -287,13 +305,26 @@ MySql.Execute(
                     for (var j=0; j<Object.keys(queryReturned.Result[i]).length; j++) {
                         var cell     = document.createElement("td");
                         var cellText = document.createTextNode(Object.values(queryReturned.Result[i])[j]);
+                        //UserName = cellText.innerHTML;
+                        
                         cell.style.width = '5%';
                         cell.appendChild(cellText);
                         tableRow.appendChild(cell);
+                        //alert(cell.innerHTML);
+                        arrayValues.push(cell.innerHTML);
+                        
                     }
 
                     tableBody.appendChild(tableRow);
                 }//cell.style.width = 20%;
+
+                document.getElementById('idLabelValue').innerHTML = arrayValues[1];
+                document.getElementById('fNameLabelValue').innerHTML = arrayValues[3];
+                document.getElementById('lNameLabelValue').innerHTML = arrayValues[4];
+
+                var idVal = document.getElementById("idLabelValue").innerHTML;
+                var fNameVal = document.getElementById("fNameLabelValue").innerHTML;
+                var lNameVal = document.getElementById("lNameLabelValue").innerHTML;
 
                 table.setAttribute("padding-right", "10");
                 table.appendChild(tableBody);
@@ -303,7 +334,6 @@ MySql.Execute(
                 body.appendChild(table);
             }
         }
-
     }
 //************************************** Create User Profile *************************************************
 function createUserProfile()
@@ -402,3 +432,79 @@ MySql.Execute(
         }
 }
 
+//Removes an article the user specifies
+function deleteArticle()
+{
+    var deleteStatement = "Delete from MentorShareArticle Where ArticleId = '";
+    var articleNumber = document.getElementById("articleIdToDelete").value;
+    var endTag = "';"
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                                     // database to use
+                                                            // SQL query string
+            deleteStatement.concat(articleNumber.concat(endTag)),
+            function (data) {
+                deleteResult.innerHTML = "Article " + articleNumber + " has been deleted.";
+                populateDocumentsTable();
+            }
+        );
+}
+
+//Upload article by grabbing user data and the information they fill in
+function uploadArticle()
+{
+    //Call this function to grab user info
+    //profileResultsPopulated();
+    debugger;
+    var selectStatement = "Insert into MentorShareArticle (CreatorId, CreatorFirstName, CreatorLastName, CreationDate, TimesShared, Genre, ArticleName, ArticleUrl, PageLength) Values ('";
+    var addApostropheCommaApostrophe = "','";
+    var currentdate = new Date(); 
+    var dateTime = currentdate.getFullYear() + "-"
+            + (currentdate.getMonth()+1)  + "-" 
+            + currentdate.getDate() + " "  
+            + currentdate.getHours() + ":"  
+            + currentdate.getMinutes() + ":" 
+            + currentdate.getSeconds();
+    //var datetime = "2018-11-07 12:31:00"
+    var timesShared = "0";
+    var endTag = "');";
+    var genreValue = document.getElementById("genreSelectBox").value;
+    var titleValue = document.getElementById("articleTitleTextBox").value;
+    var urlValue = document.getElementById("documentURLTextBox").value;
+    var pageValue = document.getElementById("pageNumberTextBox").value;
+    var id = document.getElementById("idLabelValue").innerHTML;
+    var fVal = document.getElementById("fNameLabelValue").innerHTML;
+    var lVal = document.getElementById("lNameLabelValue").innerHTML;
+
+    alert(id);
+    alert(dateTime);
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                                     // database to use
+                                                            // SQL query string
+            selectStatement.concat(id.concat(addApostropheCommaApostrophe.concat(fVal.concat(addApostropheCommaApostrophe.concat(lVal.concat(addApostropheCommaApostrophe.concat(dateTime.concat(addApostropheCommaApostrophe.concat(timesShared.concat(addApostropheCommaApostrophe.concat(genreValue.concat(addApostropheCommaApostrophe.concat(titleValue.concat(addApostropheCommaApostrophe.concat(urlValue.concat(addApostropheCommaApostrophe.concat(pageValue.concat(endTag)))))))))))))))))),
+            function (data) {
+                document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
+            }
+        );
+}
+
+//
+
+Date.prototype.yyyymmdd = function() {
+  var mm = this.getMonth() + 1; // getMonth() is zero-based
+  var dd = this.getDate();
+
+  return [this.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+         ].join('');
+};
+
+//var date = new Date();
