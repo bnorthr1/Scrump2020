@@ -117,7 +117,7 @@
       <li><a href="#options">Options</a></li>
       <li><a href="#logout">Logout</a></li>
       <hr>
-      <li><a href="#help">Help</a></li>
+      <li><a href="#help" id="helpLink">Help</a></li>
     </ul>
 
     <!-- Search menu genre button -->
@@ -164,11 +164,12 @@
         <li>2-5 Pages</li>
         <li>&gt;5 Pages</li>
       </ul>
+      <button type="button" onclick="populateDocuments()">Populate Docs</button>
     </div>
     
     <!-- Display document info -->
     <div class="row-fluid">
-            <ul class="thumbnails">
+            <ul id="documentHolder" class="thumbnails">
               <li class="documentViewer" class="span4">
                 <div class="thumbnail">
                   <img src="DocExample.png" alt="">
@@ -355,6 +356,18 @@
     <p id="deleteResult"></p>
     
   </div>
+
+    <!-- ***************************************** Help Page ********************************************** -->
+  <div id="helpLink" style="display: none;">
+		<h1>How to upload a document</h1>
+		<img src="./img/help1.PNG" class="helpImage">
+		<p>First, select the upload documents button from the top left corner of the dashboard</p>
+		<img src="./img/help2.PNG" class="helpImage">
+		<p>Next, provide the URL to the document that you have hosted on your website of choice</p>
+		<p>Also provide the title of your article, the number of pages and the genre you want it categorized under</p>
+		<p></p>
+
+	</div>
 
   <!-- ***************************************** End of Page Script Tags ********************************************** -->
 

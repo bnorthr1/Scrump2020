@@ -10,6 +10,7 @@ var createUser = document.getElementById('submitButton');
 var documentUploadPage = document.getElementById('documentUploadPage');
 var deleteButton = document.getElementById('viewDocsDeleteArticleButton');
 var uploadButton = document.getElementById('uploadButton');
+var helpLink = document.getElementById('helpLink');
 
 var uploadDocument = document.getElementById('uploadDocumentLink')
 var viewDocuments = document.getElementById('viewDocumentsLink');
@@ -35,6 +36,7 @@ loginButton.addEventListener('click', checkUsernamePassword);
 profileLink.addEventListener('click', displayProfileManagementPage);
 editProfileSubmitButton.addEventListener('click', editProfileFunction);
 createUser.addEventListener('click', createUserProfile);
+helpLink.addEventListener('click', displayHelpPage);
 
 uploadDocument.addEventListener('click', displayUploadDocumentPage);
 viewDocuments.addEventListener('click', displayDocumentsPage);
@@ -69,6 +71,13 @@ function displayProfileManagementPage(){
     profileResultsPopulated();
 }
 
+//******************************* Display Help Page **************************************
+function displayHelpPage(){
+
+    mentorShareMenu.style.display = 'none';
+    helpLink.style.display = 'block';
+
+}
 //******************************** Display Sign Up Page **************************************************
 function displaySignUp(){
     var mainPage = document.getElementById('mainSitePage');
@@ -89,6 +98,38 @@ function displayUploadDocumentPage(){
 
     mentorShareMenu.style.display = 'none';
     documentUploadPage.style.display = 'block';
+}
+
+//*****************************     Populate Documents Function           *****************************************
+
+function populateDocuments(){
+    /*Things I need  
+    <ul id="documentHolder" class="thumbnails">
+    <li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li> */
+
+    var url;
+    var img;
+    var documentName;
+    var authorName;
+    var dateOfPublish;
+    var numberOfPages; 
+
+    //Switch to select image based on genre
+
+
+    //test upload
+    $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+    //upload with variables (This is the final code, just waiting on SQL to populate variables)
+    //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
 }
 
 //*****************************     Sign Up Function           *****************************************
@@ -385,6 +426,7 @@ MySql.Execute(
 //runs preset queryResult function to create a table and insert query values
 
         function processProfileQueryResult(queryReturned) {
+            debugger;
             clearViewDocumentsTable();
             //tableHeaders.style.display = 'block';
             if (!queryReturned.Success) {
@@ -457,6 +499,7 @@ function uploadArticle()
 {
     //Call this function to grab user info
     //profileResultsPopulated();
+    debugger;
     var selectStatement = "Insert into MentorShareArticle (CreatorId, CreatorFirstName, CreatorLastName, CreationDate, TimesShared, Genre, ArticleName, ArticleUrl, PageLength) Values ('";
     var addApostropheCommaApostrophe = "','";
     var currentdate = new Date(); 
@@ -477,11 +520,8 @@ function uploadArticle()
     var fVal = document.getElementById("fNameLabelValue").innerHTML;
     var lVal = document.getElementById("lNameLabelValue").innerHTML;
 
-    //alert(id);
-    //alert(dateTime);
-
-    //Pass id to add points to that user
-    addPoints(id);
+    alert(id);
+    alert(dateTime);
 
     MySql.Execute(
         "sql3.freemysqlhosting.net",              // mySQL server
@@ -491,7 +531,7 @@ function uploadArticle()
                                                             // SQL query string
             selectStatement.concat(id.concat(addApostropheCommaApostrophe.concat(fVal.concat(addApostropheCommaApostrophe.concat(lVal.concat(addApostropheCommaApostrophe.concat(dateTime.concat(addApostropheCommaApostrophe.concat(timesShared.concat(addApostropheCommaApostrophe.concat(genreValue.concat(addApostropheCommaApostrophe.concat(titleValue.concat(addApostropheCommaApostrophe.concat(urlValue.concat(addApostropheCommaApostrophe.concat(pageValue.concat(endTag)))))))))))))))))),
             function (data) {
-                //document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
+                document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
             }
         );
 }
@@ -509,26 +549,3 @@ Date.prototype.yyyymmdd = function() {
 };
 
 //var date = new Date();
-
-//Function to add one articles created point and 7 points for uploading a document
-function addPoints(id)
-{
-    var updateStatement = "Update MentorShareUser Set ArticlesCreated = ArticlesCreated + 1, Points = Points + 7 Where UserId = '" + id + "';";
-    var endTag = "';";
-    var userId = id;
-    var sql = updateStatement.concat(userId.concat(endTag));
-    var encoded = window.encodeURIComponent(updateStatement);
-
-    console.log(updateStatement);
-
-    MySql.Execute(
-        "sql3.freemysqlhosting.net",              // mySQL server
-        "sql3258453",                             // login name
-        "3FtHyAYBuU",                             // login password
-        "sql3258453",                                     // database to use
-        encoded,
-            function (data) {
-                //document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
-            }
-        );
-}
