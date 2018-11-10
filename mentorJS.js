@@ -385,7 +385,6 @@ MySql.Execute(
 //runs preset queryResult function to create a table and insert query values
 
         function processProfileQueryResult(queryReturned) {
-            debugger;
             clearViewDocumentsTable();
             //tableHeaders.style.display = 'block';
             if (!queryReturned.Success) {
@@ -458,7 +457,6 @@ function uploadArticle()
 {
     //Call this function to grab user info
     //profileResultsPopulated();
-    debugger;
     var selectStatement = "Insert into MentorShareArticle (CreatorId, CreatorFirstName, CreatorLastName, CreationDate, TimesShared, Genre, ArticleName, ArticleUrl, PageLength) Values ('";
     var addApostropheCommaApostrophe = "','";
     var currentdate = new Date(); 
@@ -479,8 +477,11 @@ function uploadArticle()
     var fVal = document.getElementById("fNameLabelValue").innerHTML;
     var lVal = document.getElementById("lNameLabelValue").innerHTML;
 
-    alert(id);
-    alert(dateTime);
+    //alert(id);
+    //alert(dateTime);
+
+    //Pass id to add points to that user
+    addPoints(id);
 
     MySql.Execute(
         "sql3.freemysqlhosting.net",              // mySQL server
@@ -490,7 +491,7 @@ function uploadArticle()
                                                             // SQL query string
             selectStatement.concat(id.concat(addApostropheCommaApostrophe.concat(fVal.concat(addApostropheCommaApostrophe.concat(lVal.concat(addApostropheCommaApostrophe.concat(dateTime.concat(addApostropheCommaApostrophe.concat(timesShared.concat(addApostropheCommaApostrophe.concat(genreValue.concat(addApostropheCommaApostrophe.concat(titleValue.concat(addApostropheCommaApostrophe.concat(urlValue.concat(addApostropheCommaApostrophe.concat(pageValue.concat(endTag)))))))))))))))))),
             function (data) {
-                document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
+                //document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
             }
         );
 }
@@ -508,3 +509,26 @@ Date.prototype.yyyymmdd = function() {
 };
 
 //var date = new Date();
+
+//Function to add one articles created point and 7 points for uploading a document
+function addPoints(id)
+{
+    var updateStatement = "Update MentorShareUser Set ArticlesCreated = ArticlesCreated + 1, Points = Points + 7 Where UserId = '" + id + "';";
+    var endTag = "';";
+    var userId = id;
+    var sql = updateStatement.concat(userId.concat(endTag));
+    var encoded = window.encodeURIComponent(updateStatement);
+
+    console.log(updateStatement);
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                                     // database to use
+        encoded,
+            function (data) {
+                //document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
+            }
+        );
+}
