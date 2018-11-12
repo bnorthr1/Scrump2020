@@ -19,7 +19,7 @@
 
   <!-- Main Site Login ********************************************************************************************** -->
   <div id="mainSitePage" style="display: block;">
-    <form id="loginForm" action="action_page.php">
+    <form id="loginForm" name="loginPage" action="action_page.php">
             <label for="userName"><b>Username:</b></label>
             <br>
             <input type="text" id="userNameLoginId" placeholder="Enter Username" name="userName" required>
@@ -28,8 +28,8 @@
             <br>
             <input type="password" id="passwordLoginId"placeholder="Enter Password" name="password" required>
             <br>
-            <button type="button" id="userNamePasswordLogin" onclick="displayHomePage()">Login</button>
-            <button type="button" id="signUpButton">Sign Up</button>
+            <button type="button" id="userNamePasswordLogin" onclick="displayHomePage()" name="loginButton">Login</button>
+            <button type="button" id="signUpButton" name="signUpButton">Sign Up</button>
             <br>
             <!-- FOR TESTING PURPOSES -->
             <!--<button type="button" id="dashboardButton" onclick="runDashboard()">Dashboard</button>-->
@@ -50,9 +50,9 @@
   </div>
 
   <!---****************************************** Sign Up Page  **********************************************************-->
-  <div class="signUpPage" id="signUpPage" style="display: none;">
+  <div class="signUpPage" id="signUpPage" name="signUpPage" style="display: none;">
     <div id="signUpDiv">
-  <form id="signUp">
+  <form id="signUp" name="signUp">
     
         <h2>Connect to your workmates</h2>
             <table id="signUpInfo">
@@ -194,7 +194,7 @@
 
 <!--******************************************* Profile Management ***************************************************** -->  
 <div class="profileManagement" id="profileManagementPage" style="display: none;">
-  <form id="profile">
+  <form id="profile" name="profile">
     <!--<img src="..\appFiles\img\Sparky.png" alt="Sparky" class="sparkyImg">-->
     
       <h2>Profile Management Page</h2>
@@ -251,7 +251,7 @@
   <!---************************************** Document Upload Page  *******************************************************-->
   <div class="documentUploadPage" id="documentUploadPage" style="display: none;" style="text-align: center;">
     <div id="documentUploadPageDiv">
-      <form id="uploadDocument">
+      <form id="uploadDocument" name="upload">
         
             <h2>Upload a Document</h2>
                 <table id="signUpInfo">
@@ -269,7 +269,7 @@
                     </tr>  
                     <tr>
                     	<td>Genre: </td>
-                      <td><select name="genereSelect" id="genreSelectBox">
+                      <td><select name="genreSelect" id="genreSelectBox">
                         <option value="Life_Insurance">Life_Insurance</option>
                         <option value="Banking">Banking</option>
                         <option value="Financial_Advice">Financial_Advice</option>
@@ -281,7 +281,7 @@
                 </table>
                 <br>
                     <button type="button" name="uploadButton" value="Upload" id="uploadButton" style="width: auto;">Upload</button>
-                    <button id="viewDocsDashboardButton" style="width: auto;">Dashboard</button>
+                    <button type="button" id="viewDocsDashboardButton" name="viewDocsDashboard" style="width: auto;">Dashboard</button>
                     <br>
                     <label id="idLabelValue"></label>
                     <label id="fNameLabelValue"></label>
@@ -326,6 +326,7 @@
     <p id="deleteResult"></p>
     
   </div>
+
 
     <!-- ***************************************** Help Page ********************************************** -->
   <div id="helpPage" style="display: none;">
