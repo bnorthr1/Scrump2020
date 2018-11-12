@@ -11,6 +11,7 @@ var createUser = document.getElementById('submitButton');
 var documentUploadPage = document.getElementById('documentUploadPage');
 var deleteButton = document.getElementById('viewDocsDeleteArticleButton');
 var uploadButton = document.getElementById('uploadButton');
+var helpButton = document.getElementById('helpLink');
 
 var uploadDocument = document.getElementById('uploadDocumentLink');
 var viewDocuments = document.getElementById('viewDocumentsLink');
@@ -58,6 +59,8 @@ viewDocuments.addEventListener('click', displayDocumentsPage);
 viewDocumentsDashboardButton.addEventListener('click', displayMainHomePage);
 deleteButton.addEventListener('click', deleteArticle);
 uploadButton.addEventListener('click', uploadArticle);
+//loginButton.addEventListener('click', getLoggedInJob);
+//helpButton.addEventListener('click', getLoggedInJob);
 
 
 function displayTableuTables(){
@@ -71,7 +74,6 @@ function displayTableuTables(){
 function displayHomePage()
 {
     checkUsernamePassword();
-
 }
 
 //****************************** Display Home Page general use *********************************************
@@ -82,8 +84,7 @@ function displayMainHomePage()
     signUpPage.style.display = 'none';
     viewDocumentsMenu.style.display = 'none';
     documentUploadPage.style.display = 'none';
-    profileResultsPopulated();
-    
+    profileResultsPopulated();  
 }
 //******************************* Display Profile Management Page **************************************
 function displayProfileManagementPage(){
@@ -303,7 +304,6 @@ function checkUsernamePassword()
     var andPassword = "' and UserPassword = '";
     var password = document.getElementById("passwordLoginId").value;
     var endTag = "')";
-    debugger;
 
     MySql.Execute(
         "sql3.freemysqlhosting.net",              // mySQL server
@@ -475,8 +475,7 @@ MySql.Execute(
                         cell.appendChild(cellText);
                         tableRow.appendChild(cell);
                         //alert(cell.innerHTML);
-                        arrayValues.push(cell.innerHTML);
-                        
+                        arrayValues.push(cell.innerHTML);                        
                     }
 
                     tableBody.appendChild(tableRow);
@@ -485,11 +484,12 @@ MySql.Execute(
                 document.getElementById('idLabelValue').innerHTML = arrayValues[1];
                 document.getElementById('fNameLabelValue').innerHTML = arrayValues[3];
                 document.getElementById('lNameLabelValue').innerHTML = arrayValues[4];
+                document.getElementById('jobTitleValueLabel').innerHTML = arrayValues[5];
 
-                var idVal = document.getElementById("idLabelValue").innerHTML;
-                var fNameVal = document.getElementById("fNameLabelValue").innerHTML;
-                var lNameVal = document.getElementById("lNameLabelValue").innerHTML;
-
+                 idVal = document.getElementById("idLabelValue").innerHTML;
+                 fNameVal = document.getElementById("fNameLabelValue").innerHTML;
+                 lNameVal = document.getElementById("lNameLabelValue").innerHTML;
+                              
                 table.setAttribute("padding-right", "10");
                 table.appendChild(tableBody);
                 table.setAttribute("border", "3");
@@ -497,6 +497,7 @@ MySql.Execute(
                 
                 body.appendChild(table);
             }
+            getLoggedInJob();
         }
     }
 //************************************** Create User Profile *************************************************
@@ -806,7 +807,7 @@ function grabArticleData()
         var authorName;
         var dateOfPublish;
         var numberOfPages; 
-    var selectStatement = "Select CreatorFirstName, CreatorLastName, Genre, ArticleName, CreationDate, PageLength, ArticleUrl from MentorShareArticle Order by CreationDate"
+    var selectStatement = "Select CreatorFirstName, CreatorLastName, Genre, ArticleName, CreationDate, PageLength, ArticleUrl from MentorShareArticle Order by CreationDate "
     var userData = [1000,30];
 
     
@@ -917,6 +918,149 @@ function grabArticleData()
 
                 }
                
+            }
+        );
+}
+
+function showDataOnLogin(job)
+{
+    var selectStatement = "Select CreatorFirstName, CreatorLastName, Genre, ArticleName, CreationDate, PageLength, ArticleUrl from MentorShareArticle Where Genre like '%";
+    var jobVal = job;
+    var endStatement = "%' Order by CreationDate Limit 9;";
+    var loginArticles = [1000,30];
+
+    //alert("jobVal:");
+    //alert(jobVal);
+
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                             // database to use
+        selectStatement.concat(jobVal.concat(endStatement)),                          // SQL query string
+            function (jobInfoHere) {
+                    var jobData = JSON.stringify(jobInfoHere);
+                    //alert(jobData.length);
+                    //alert(jobData);
+
+                    //alert(idVal);
+                    if (jobData.length > 100)
+                    {
+
+                    for (var i = 0; i < 9; i++) {                        
+                        
+                            loginArticles[i,0] = jobData.search("CreatorFirstName\":\"");
+                            //alert(loginArticles[0,0]);
+                            loginArticles[i,1] = jobData.search("\",\"CreatorLastName");
+                            //alert(loginArticles[0,1]);
+                            loginArticles[i,2] = jobData.substring(loginArticles[i,0]+19, loginArticles[i,1]);//First Name
+                            //alert(loginArticles[i,2]);
+                            loginArticles[i,3] = jobData.search("CreatorLastName\":\"");
+                            //alert(loginArticles[0,3]);
+                            loginArticles[i,4] = jobData.search("\",\"Genre");
+                            //alert(loginArticles[0,4]);
+                            loginArticles[i,5] = jobData.substring(loginArticles[i,3]+18, loginArticles[i,4]); //Last Name
+                            //alert(loginArticles[i,5]);
+                            loginArticles[i,6] = jobData.search("Genre\":\"");
+                            loginArticles[i,7] = jobData.search("\",\"ArticleName");
+                            loginArticles[i,8] = jobData.substring(loginArticles[i,6]+8, loginArticles[i,7]); //Genre
+                            //alert(loginArticles[i,8]);
+                            loginArticles[i,9] = jobData.search("ArticleName\":\"");
+                            loginArticles[i,10] = jobData.search("\",\"CreationDate");
+                            loginArticles[i,11] = jobData.substring(loginArticles[i,9]+14, loginArticles[i,10]); //Article Name
+                            //alert(loginArticles[i,11]);
+                            loginArticles[i,12] = jobData.search("CreationDate\":\"");
+                            loginArticles[i,13] = jobData.search("\",\"PageLength");
+                            loginArticles[i,14] = jobData.substring(loginArticles[i,12]+15, loginArticles[i,13]-9); //Creation Date
+                            //alert(loginArticles[i,14]);
+                            loginArticles[i,15] = jobData.search("PageLength\":\"");
+                            loginArticles[i,16] = jobData.search("\",\"ArticleUrl");
+                            loginArticles[i,17] = jobData.substring(loginArticles[i,15]+13, loginArticles[i,16]); // Page Length
+                            //alert(loginArticles[i,17]);
+                            loginArticles[i,18] = jobData.search("ArticleUrl\":\"");
+                            loginArticles[i,19] = jobData.search("\"\},\{");
+                            loginArticles[i,20] = jobData.substring(loginArticles[i,18]+13, loginArticles[i,19]); //article URl
+                            //alert(loginArticles[i,20]);
+                            loginArticles[i,21] = jobData.substring(loginArticles[i,0]-21, loginArticles[i,19]+3);
+
+            //                 var url;
+            // var img;
+            // var documentName;
+            // var authorName;
+            // var dateOfPublish;
+            // var numberOfPages; 
+            authorName = loginArticles[i,2] + " " + loginArticles [i,5];
+            documentName = loginArticles[i,11];
+            dateOfPublish = loginArticles[i,14];
+            numberOfPages = loginArticles[i,17];
+            url = loginArticles[i,20];
+
+
+            // alert(authorName);
+            // alert(documentName);
+            // alert(dateOfPublish);
+            // alert(numberOfPages);
+            // alert(url);
+
+
+
+
+                                //alert(loginArticles[i,21]);
+                                var jobData = jobData.replace(loginArticles[i,21], "");
+
+                                //alert(getInfo);
+
+                                //test upload
+        //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+        //upload with variables (This is the final code, just waiting on SQL to populate variables)
+        $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ "Pages: " + numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="http://corn-hub.blogspot.com/" class="btn">Favorite</a></p> </div> </div> </li>')
+                    
+                    if ((i % 4) == 0 )
+                    {   
+                        alert("br");
+                        $("#documentHolder").append('<br>')
+                    }
+
+                    }
+                }
+               
+            }
+        );
+}
+
+function getLoggedInJob() {
+    var selectStatement = "Select JobTitle from MentorShareUser Where UserName = '";
+    var userName = document.getElementById('userNameLoginId').value;
+    //alert(userName);
+    var andStatement = "'and UserPassword = '"
+    var password = document.getElementById('passwordLoginId').value;
+    //alert(password);
+    var endStatement = "';"
+    var jobArray = [2];
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                             // database to use
+        selectStatement.concat(userName.concat(andStatement.concat(password.concat(endStatement)))),                          // SQL query string
+            function (dataJob) {
+                var dataHere = JSON.stringify(dataJob);
+                //alert(dataHere);
+                var jobTitleValHere = JSON.stringify(dataJob);
+                //alert(jobTitleValHere);
+
+                jobArray[0] = jobTitleValHere.search("JobTitle\":\"");
+                //alert(userData[0,0]);
+                jobArray[1] = jobTitleValHere.search("\",\"Email");
+                //alert(userData[0,1]);
+                jobArray[2] = jobTitleValHere.substring(jobArray[0]+11, jobArray[1]);
+
+                var job = jobArray[2];
+
+                //alert(job);
+
+                showDataOnLogin(job);
             }
         );
 }
