@@ -860,11 +860,11 @@ function showDataOnLogin(job)
         //upload with variables (This is the final code, just waiting on SQL to populate variables)
         $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ "Pages: " + numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="http://corn-hub.blogspot.com/" class="btn">Favorite</a></p> </div> </div> </li>')
                     
-                    if ((i % 4) == 0 )
-                    {   
-                        alert("br");
-                        $("#documentHolder").append('<br>')
-                    }
+                    // if ((i % 4) == 0 )
+                    // {   
+                    //    // alert("br");
+                    //     //$("#documentHolder").append('<br>')
+                    // }
 
                     }
                 }
