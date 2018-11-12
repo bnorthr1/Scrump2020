@@ -19,7 +19,7 @@
 
   <!-- Main Site Login ********************************************************************************************** -->
   <div id="mainSitePage" style="display: block;">
-    <form id="loginForm" action="action_page.php">
+    <form id="loginForm" name="loginPage" action="action_page.php">
             <label for="userName"><b>Username:</b></label>
             <br>
             <input type="text" id="userNameLoginId" placeholder="Enter Username" name="userName" required>
@@ -28,8 +28,8 @@
             <br>
             <input type="password" id="passwordLoginId"placeholder="Enter Password" name="password" required>
             <br>
-            <button type="button" id="userNamePasswordLogin" onclick="displayHomePage()">Login</button>
-            <button type="button" id="signUpButton">Sign Up</button>
+            <button type="button" id="userNamePasswordLogin" onclick="displayHomePage()" name="loginButton">Login</button>
+            <button type="button" id="signUpButton" name="signUpButton">Sign Up</button>
             <br>
             <!-- FOR TESTING PURPOSES -->
             <!--<button type="button" id="dashboardButton" onclick="runDashboard()">Dashboard</button>-->
@@ -50,9 +50,9 @@
   </div>
 
   <!---****************************************** Sign Up Page  **********************************************************-->
-  <div class="signUpPage" id="signUpPage" style="display: none;">
+  <div class="signUpPage" id="signUpPage" name="signUpPage" style="display: none;">
     <div id="signUpDiv">
-  <form id="signUp">
+  <form id="signUp" name="signUp">
     
         <h2>Connect to your workmates</h2>
             <table id="signUpInfo">
@@ -108,12 +108,13 @@
   <div id="mentorShareMenu" style="display: none;">
     <ul id="menu">
 
-      <li><a href="#view" id="viewDocumentsLink">View Documents</a></li>
-      <li><a href="#upload" id="uploadDocumentLink">Upload Documents</a></li>
-      <li><a href="#subscriberDocs">Subscriber Documents</a></li>
+      <li><a href="#view" id="viewDocumentsLink">View Beacons</a></li>
+      <li><a href="#upload" id="uploadDocumentLink">Upload Beacons</a></li>
+      <li><a href="#tableu" id="tableuTablesLink">Sea of Influence</li>
+      <li><a href="#subscriberDocs">Subscriber Beacons</a></li>
       <li><a href="#favorited">Favorited</a></li>
       <hr>
-      <li><a href="#profile" id="profileLink">Profile</a></li>
+      <li><a href="#profile" id="profileLink">Lighthouse Management</a></li>
       <li><a href="#options">Options</a></li>
       <li><a href="#logout">Logout</a></li>
       <hr>
@@ -164,56 +165,16 @@
         <li>2-5 Pages</li>
         <li>&gt;5 Pages</li>
       </ul>
-      <button type="button" onclick="populateDocuments()">Populate Docs</button>
+      <button type="button" onclick="grabArticleData()">Populate Docs</button>
     </div>
     
     <!-- Display document info -->
     <div class="row-fluid">
             <ul id="documentHolder" class="thumbnails">
-              <li class="documentViewer" class="span4">
-                <div class="thumbnail">
-                  <img src="DocExample.png" alt="">
-                  <div class="caption">
-                    <h5>Tableau Analytics</h5>
-                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
-                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
-                  </div>
-                </div>
-              </li>
-              <li class="documentViewer" class="span4">
-                <div class="thumbnail">
-                  <img src="DocExample.png" alt="">
-                  <div class="caption">
-                    <h5>Tableau Analytics</h5>
-                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
-                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
-                  </div>
-                </div>
-              </li>
-<li class="documentViewer" class="span4">
-                <div class="thumbnail">
-                  <img src="DocExample.png" alt="">
-                  <div class="caption">
-                    <h5>Tableau Analytics</h5>
-                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
-                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
-                  </div>
-                </div>
-              </li>
-				
-
-              <li class="documentViewer" class="span4">
-                <div class="thumbnail">
-                  <img src="DocExample.png" alt="">
-                  <div class="caption">
-                    <h5>Tableau Analytics</h5>
-                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
-                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
-                  </div>
-                </div>
-              </li>
+             
             </ul>
           </div>
+
 
     <!-- Search bar -->
     <form id ="searchBar" class="navbar-search pull-left">
@@ -224,7 +185,7 @@
 
 <!--******************************************* Profile Management ***************************************************** -->  
 <div class="profileManagement" id="profileManagementPage" style="display: none;">
-  <form id="profile">
+  <form id="profile" name="profile">
     <!--<img src="..\appFiles\img\Sparky.png" alt="Sparky" class="sparkyImg">-->
     
       <h2>Profile Management Page</h2>
@@ -281,7 +242,7 @@
   <!---************************************** Document Upload Page  *******************************************************-->
   <div class="documentUploadPage" id="documentUploadPage" style="display: none;" style="text-align: center;">
     <div id="documentUploadPageDiv">
-      <form id="uploadDocument">
+      <form id="uploadDocument" name="upload">
         
             <h2>Upload a Document</h2>
                 <table id="signUpInfo">
@@ -299,7 +260,7 @@
                     </tr>  
                     <tr>
                     	<td>Genre: </td>
-                      <td><select name="genereSelect" id="genreSelectBox">
+                      <td><select name="genreSelect" id="genreSelectBox">
                         <option value="Life_Insurance">Life_Insurance</option>
                         <option value="Banking">Banking</option>
                         <option value="Financial_Advice">Financial_Advice</option>
@@ -311,7 +272,7 @@
                 </table>
                 <br>
                     <button type="button" name="uploadButton" value="Upload" id="uploadButton" style="width: auto;">Upload</button>
-                    <button id="viewDocsDashboardButton" style="width: auto;">Dashboard</button>
+                    <button type="button" id="viewDocsDashboardButton" name="viewDocsDashboard" style="width: auto;">Dashboard</button>
                     <br>
                     <label id="idLabelValue"></label>
                     <label id="fNameLabelValue"></label>
@@ -356,18 +317,6 @@
     <p id="deleteResult"></p>
     
   </div>
-
-    <!-- ***************************************** Help Page ********************************************** -->
-  <div id="helpLink" style="display: none;">
-		<h1>How to upload a document</h1>
-		<img src="./img/help1.PNG" class="helpImage">
-		<p>First, select the upload documents button from the top left corner of the dashboard</p>
-		<img src="./img/help2.PNG" class="helpImage">
-		<p>Next, provide the URL to the document that you have hosted on your website of choice</p>
-		<p>Also provide the title of your article, the number of pages and the genre you want it categorized under</p>
-		<p></p>
-
-	</div>
 
   <!-- ***************************************** End of Page Script Tags ********************************************** -->
 

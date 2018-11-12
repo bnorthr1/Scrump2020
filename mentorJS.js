@@ -10,7 +10,6 @@ var createUser = document.getElementById('submitButton');
 var documentUploadPage = document.getElementById('documentUploadPage');
 var deleteButton = document.getElementById('viewDocsDeleteArticleButton');
 var uploadButton = document.getElementById('uploadButton');
-var helpLink = document.getElementById('helpLink');
 
 var uploadDocument = document.getElementById('uploadDocumentLink')
 var viewDocuments = document.getElementById('viewDocumentsLink');
@@ -21,6 +20,14 @@ var lNameVal;
 var userID;
 var userFname;
 var userLname;
+
+//for the embedded values
+var url;
+var img;
+var documentName;
+var authorName;
+var dateOfPublish;
+var numberOfPages;
 
 
 var mainPage = document.getElementById('mainSitePage');
@@ -36,7 +43,6 @@ loginButton.addEventListener('click', checkUsernamePassword);
 profileLink.addEventListener('click', displayProfileManagementPage);
 editProfileSubmitButton.addEventListener('click', editProfileFunction);
 createUser.addEventListener('click', createUserProfile);
-helpLink.addEventListener('click', displayHelpPage);
 
 uploadDocument.addEventListener('click', displayUploadDocumentPage);
 viewDocuments.addEventListener('click', displayDocumentsPage);
@@ -71,13 +77,6 @@ function displayProfileManagementPage(){
     profileResultsPopulated();
 }
 
-//******************************* Display Help Page **************************************
-function displayHelpPage(){
-
-    mentorShareMenu.style.display = 'none';
-    helpLink.style.display = 'block';
-
-}
 //******************************** Display Sign Up Page **************************************************
 function displaySignUp(){
     var mainPage = document.getElementById('mainSitePage');
@@ -98,38 +97,6 @@ function displayUploadDocumentPage(){
 
     mentorShareMenu.style.display = 'none';
     documentUploadPage.style.display = 'block';
-}
-
-//*****************************     Populate Documents Function           *****************************************
-
-function populateDocuments(){
-    /*Things I need  
-    <ul id="documentHolder" class="thumbnails">
-    <li class="documentViewer" class="span4">
-                <div class="thumbnail">
-                  <img src="DocExample.png" alt="">
-                  <div class="caption">
-                    <h5>Tableau Analytics</h5>
-                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
-                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
-                  </div>
-                </div>
-              </li> */
-
-    var url;
-    var img;
-    var documentName;
-    var authorName;
-    var dateOfPublish;
-    var numberOfPages; 
-
-    //Switch to select image based on genre
-
-
-    //test upload
-    $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
-    //upload with variables (This is the final code, just waiting on SQL to populate variables)
-    //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
 }
 
 //*****************************     Sign Up Function           *****************************************
@@ -180,7 +147,7 @@ function checkUsernamePassword()
     var andPassword = "' and UserPassword = '";
     var password = document.getElementById("passwordLoginId").value;
     var endTag = "')";
-
+    debugger;
 
     MySql.Execute(
         "sql3.freemysqlhosting.net",              // mySQL server
@@ -426,7 +393,6 @@ MySql.Execute(
 //runs preset queryResult function to create a table and insert query values
 
         function processProfileQueryResult(queryReturned) {
-            debugger;
             clearViewDocumentsTable();
             //tableHeaders.style.display = 'block';
             if (!queryReturned.Success) {
@@ -499,7 +465,6 @@ function uploadArticle()
 {
     //Call this function to grab user info
     //profileResultsPopulated();
-    debugger;
     var selectStatement = "Insert into MentorShareArticle (CreatorId, CreatorFirstName, CreatorLastName, CreationDate, TimesShared, Genre, ArticleName, ArticleUrl, PageLength) Values ('";
     var addApostropheCommaApostrophe = "','";
     var currentdate = new Date(); 
@@ -520,8 +485,11 @@ function uploadArticle()
     var fVal = document.getElementById("fNameLabelValue").innerHTML;
     var lVal = document.getElementById("lNameLabelValue").innerHTML;
 
-    alert(id);
-    alert(dateTime);
+    //alert(id);
+    //alert(dateTime);
+
+    //Pass id to add points to that user
+    addPoints(id);
 
     MySql.Execute(
         "sql3.freemysqlhosting.net",              // mySQL server
@@ -531,7 +499,7 @@ function uploadArticle()
                                                             // SQL query string
             selectStatement.concat(id.concat(addApostropheCommaApostrophe.concat(fVal.concat(addApostropheCommaApostrophe.concat(lVal.concat(addApostropheCommaApostrophe.concat(dateTime.concat(addApostropheCommaApostrophe.concat(timesShared.concat(addApostropheCommaApostrophe.concat(genreValue.concat(addApostropheCommaApostrophe.concat(titleValue.concat(addApostropheCommaApostrophe.concat(urlValue.concat(addApostropheCommaApostrophe.concat(pageValue.concat(endTag)))))))))))))))))),
             function (data) {
-                document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
+                //document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
             }
         );
 }
@@ -549,3 +517,250 @@ Date.prototype.yyyymmdd = function() {
 };
 
 //var date = new Date();
+
+//Function to add one articles created point and 7 points for uploading a document
+function addPoints(id)
+{
+    var updateStatement = "Update MentorShareUser Set ArticlesCreated = ArticlesCreated + 1, Points = Points + 7 Where UserId = '" + id + "';";
+    var endTag = "';";
+    var userId = id;
+    var sql = updateStatement.concat(userId.concat(endTag));
+    var encoded = window.encodeURIComponent(updateStatement);
+
+    console.log(updateStatement);
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                                     // database to use
+        encoded,
+            function (data) {
+                //document.getElementById("sqlOutput").innerHTML = JSON.stringify(data,null,2);
+            }
+        );
+}
+
+//*****************************     Populate Documents Function           *****************************************
+
+function populateDocuments(){
+    /*Things I need  
+    <ul id="documentHolder" class="thumbnails">
+    <li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li> */
+
+     //call function
+     grabArticleData();
+
+    //Switch to select image based on genre
+
+
+    //test upload
+    $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+    //upload with variables (This is the final code, just waiting on SQL to populate variables)
+    //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+}
+
+//***************************** Grab Article Data *******************************************************************
+
+/*function grabArticleData()
+{
+    var selectStatement = "Select CreatorFirstName, CreatorLastName, Genre, ArticleName, CreationDate, PageLength, ArticleUrl from MentorShareArticle Order by CreationDate"
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                             // database to use
+        selectStatement,                          // SQL query string
+            function (data) {
+                alert(data);
+            }
+        );
+
+        function processProfileQueryResult(queryReturned) {
+            //clearViewDocumentsTable();
+            //tableHeaders.style.display = 'block';
+            if (!queryReturned.Success) {
+                alert(queryReturned.Error)
+            } else {
+
+                var table, tableBody, tableHeader, tableRow;
+                var rows = queryReturned.length;
+
+                var body        = document.getElementById("queryDiv");
+                table       = document.getElementById("queryTable");
+                tableBody   = document.createElement("tbody");
+                tableHeader = document.createElement("tr");
+                var arrayVals = [5];
+
+                for (var i=0; i<queryReturned.Result[0].length; i++) {
+                    var cell     = document.createElement("th");
+                    var cellText = document.createTextNode(queryReturned.Result[0].keys()[i]);
+                    cell.appendChild(cellText);
+                    tableHeader.appendChild(cell);
+                }
+                tableBody.appendChild(tableHeader);
+
+                for (var i=0; i<queryReturned.Result.length; i++) {
+                    var tableRow = document.createElement("tr");
+
+                    for (var j=0; j<Object.keys(queryReturned.Result[i]).length; j++) {
+                        var cell     = document.createElement("td");
+                        var cellText = document.createTextNode(Object.values(queryReturned.Result[i])[j]);
+                        cell.style.width = '5%';
+                        cell.appendChild(cellText);
+                        tableRow.appendChild(cell);
+
+                        arrayVals.push(cell.innerHTML);
+                    }
+
+                    tableBody.appendChild(tableRow);
+                }//cell.style.width = 20%;
+
+                debugger;
+                document.getElementById('popUrl').innerHTML = arrayVals[1];
+                document.getElementById('popImg').innerHTML = arrayVals[3];
+                document.getElementById('popDocName').innerHTML = arrayVals[4];
+
+                table.setAttribute("padding-right", "10");
+                table.appendChild(tableBody);
+                table.setAttribute("border", "3");
+                table.style.borderCollapse="collapse";
+                
+                body.appendChild(table);
+            }
+        }
+}*/
+
+function grabArticleData()
+{
+
+        var url;
+        var img;
+        var documentName;
+        var authorName;
+        var dateOfPublish;
+        var numberOfPages; 
+    var selectStatement = "Select CreatorFirstName, CreatorLastName, Genre, ArticleName, CreationDate, PageLength, ArticleUrl from MentorShareArticle Order by CreationDate"
+    var userData = [1000,30];
+
+    
+    /*Things I need  
+    <ul id="documentHolder" class="thumbnails">
+    <li class="documentViewer" class="span4">
+                <div class="thumbnail">
+                  <img src="DocExample.png" alt="">
+                  <div class="caption">
+                    <h5>Tableau Analytics</h5>
+                    <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre>
+                    <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p>
+                  </div>
+                </div>
+              </li> */
+
+
+
+    //Switch to select image based on genre
+
+
+    //test upload
+   // $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+    //upload with variables (This is the final code, just waiting on SQL to populate variables)
+    //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+
+
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                             // database to use
+        selectStatement,                          // SQL query string
+            function (data) {
+                var getInfo = JSON.stringify(data);
+                //alert(getInfo);
+
+                for (var i = 0; i < 38; i++) {
+
+                    
+                    
+                        userData[i,0] = getInfo.search("\":\"");
+                        //alert(userData[0,0]);
+                        userData[i,1] = getInfo.search("\",\"");
+                        //alert(userData[0,1]);
+                        userData[i,2] = getInfo.substring(userData[i,0]+3, userData[i,1]);//First Name
+                        //alert(userData[i,2]);
+                        userData[i,3] = getInfo.search("CreatorLastName\":\"");
+                        //alert(userData[0,3]);
+                        userData[i,4] = getInfo.search("\",\"Genre");
+                        //alert(userData[0,4]);
+                        userData[i,5] = getInfo.substring(userData[i,3]+18, userData[i,4]); //Last Name
+                        //alert(userData[i,5]);
+                        userData[i,6] = getInfo.search("Genre\":\"");
+                        userData[i,7] = getInfo.search("\",\"ArticleName");
+                        userData[i,8] = getInfo.substring(userData[i,6]+8, userData[i,7]); //Genre
+                        //alert(userData[i,8]);
+                        userData[i,9] = getInfo.search("ArticleName\":\"");
+                        userData[i,10] = getInfo.search("\",\"CreationDate");
+                        userData[i,11] = getInfo.substring(userData[i,9]+14, userData[i,10]); //Article Name
+                        //alert(userData[i,11]);
+                        userData[i,12] = getInfo.search("CreationDate\":\"");
+                        userData[i,13] = getInfo.search("\",\"PageLength");
+                        userData[i,14] = getInfo.substring(userData[i,12]+15, userData[i,13]); //Creation Date
+                        //alert(userData[i,14]);
+                        userData[i,15] = getInfo.search("PageLength\":\"");
+                        userData[i,16] = getInfo.search("\",\"ArticleUrl");
+                        userData[i,17] = getInfo.substring(userData[i,15]+13, userData[i,16]); // Page Length
+                        //alert(userData[i,17]);
+                        userData[i,18] = getInfo.search("ArticleUrl\":\"");
+                        userData[i,19] = getInfo.search("\"\},\{");
+                        userData[i,20] = getInfo.substring(userData[i,18]+13, userData[i,19]); //article URl
+                        //alert(userData[i,20]);
+                        userData[i,21] = getInfo.substring(userData[i,0]-21, userData[i,19]+3);
+
+        //                 var url;
+        // var img;
+        // var documentName;
+        // var authorName;
+        // var dateOfPublish;
+        // var numberOfPages; 
+        authorName = userData[i,2] + " " + userData [i,5];
+        documentName = userData[i,11];
+        dateOfPublish = userData[i,14];
+        numberOfPages = userData[i,17];
+        url = userData[i,20];
+
+
+        // alert(authorName);
+        // alert(documentName);
+        // alert(dateOfPublish);
+        // alert(numberOfPages);
+        // alert(url);
+
+
+
+
+                            //alert(userData[i,21]);
+                            var getInfo = getInfo.replace(userData[i,21], "");
+
+                            //alert(getInfo);
+
+                            //test upload
+    //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+    //upload with variables (This is the final code, just waiting on SQL to populate variables)
+    $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="http://corn-hub.blogspot.com/" class="btn">Favorite</a></p> </div> </div> </li>')
+
+                }
+               
+            }
+        );
+}
