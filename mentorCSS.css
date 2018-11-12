@@ -48,8 +48,23 @@
 
 #mainSitePage{
 	text-align: center;	
-	object-fit: contain;
+}
 
+#floatMenuRight{
+	font-size: 140%;
+	float: left;
+	margin-left: 20%;
+	margin-top: 16%;
+
+}
+
+#floatTableuLeft{
+	float: left;
+}
+
+#tableauPlaceholder{
+	float: right;
+    overflow: auto;
 }
 
 #signUpInfo{
@@ -135,7 +150,7 @@ img {
 
 button {
 	border-radius: 12px;
-	width: 10%;
+	width: auto;
 	border: 2px solid white;
 	color: white;
 	background-color: dodgerblue;
@@ -155,4 +170,6 @@ h3 {
 	margin-left: .75%;
 	margin-top: .50%;
 }
+
+
 
