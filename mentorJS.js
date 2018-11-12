@@ -6,13 +6,14 @@ var editProfileSubmitButton = document.getElementById('profileSubmitButton');
 var loginButton = document.getElementById('userNamePasswordLogin');
 var viewDocumentsDashboardButton = document.getElementById('viewDocsDashboardButton');
 var profileLink = document.getElementById('profileLink');
+var tableuTablesLink = document.getElementById('tableuTablesLink');
 var createUser = document.getElementById('submitButton');
 var documentUploadPage = document.getElementById('documentUploadPage');
 var deleteButton = document.getElementById('viewDocsDeleteArticleButton');
 var uploadButton = document.getElementById('uploadButton');
 var helpLink = document.getElementById('helpLink');
 
-var uploadDocument = document.getElementById('uploadDocumentLink')
+var uploadDocument = document.getElementById('uploadDocumentLink');
 var viewDocuments = document.getElementById('viewDocumentsLink');
 var idVal;
 var fNameVal;
@@ -29,6 +30,8 @@ var profilePage = document.getElementById('mentorShareMenu');
 var profileEditPage = document.getElementById('profileManagementPage');
 var userName = document.getElementById('userNameTextBoxEdit');
 var viewDocumentsMenu = document.getElementById('viewDocumentsPage');
+var tableuTablesPage = document.getElementById('tableuTable');
+var helpLinkPage = document.getElementById('helpPage');
 
 //event listeners
 signUpButton.addEventListener('click', displaySignUp);
@@ -36,13 +39,23 @@ loginButton.addEventListener('click', checkUsernamePassword);
 profileLink.addEventListener('click', displayProfileManagementPage);
 editProfileSubmitButton.addEventListener('click', editProfileFunction);
 createUser.addEventListener('click', createUserProfile);
+tableuTablesLink.addEventListener('click', displayTableuTables);
 helpLink.addEventListener('click', displayHelpPage);
+
+
 
 uploadDocument.addEventListener('click', displayUploadDocumentPage);
 viewDocuments.addEventListener('click', displayDocumentsPage);
 viewDocumentsDashboardButton.addEventListener('click', displayMainHomePage);
 deleteButton.addEventListener('click', deleteArticle);
 uploadButton.addEventListener('click', uploadArticle);
+
+
+function displayTableuTables(){
+
+    mentorShareMenu.style.display = 'none';
+    tableuTablesPage.style.display = 'block';
+}
 
 
 //***************************** Display Home page post login ******************************************************
@@ -73,9 +86,10 @@ function displayProfileManagementPage(){
 
 //******************************* Display Help Page **************************************
 function displayHelpPage(){
+    
 
     mentorShareMenu.style.display = 'none';
-    helpLink.style.display = 'block';
+    helpLinkPage.style.display = 'block';
 
 }
 //******************************** Display Sign Up Page **************************************************
