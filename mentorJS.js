@@ -811,13 +811,15 @@ function showDataOnLogin(job)
             dateOfPublish = loginArticles[i,14];
             numberOfPages = loginArticles[i,17];
             url = loginArticles[i,20];
-
-
+            var genre = loginArticles[i,8]; //Genre
+            // alert(genre);
             // alert(authorName);
             // alert(documentName);
             // alert(dateOfPublish);
             // alert(numberOfPages);
             // alert(url);
+
+            
 
 
 
@@ -828,10 +830,25 @@ function showDataOnLogin(job)
                                 //alert(getInfo);
 
                                 //test upload
+            switch(genre){
+                case "Life_Insurance":
+                    documentImage = "./img/lifeInsurance.jpg"
+                    break;
+                case "Investments":
+                    documentImage = "./img/investment.jpg"
+                    break;
+                case "Programming":
+                    documentImage = "./img/programming.jpg"
+                    break;
+                case "Financial_Advice":
+                    documentImage = "./img/financialadvisor.jpg"
+                    break;
+            }
+            // alert(documentImage);
+            
         //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
         //upload with variables (This is the final code, just waiting on SQL to populate variables)
-        $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ "Pages: " + numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <a href="http://corn-hub.blogspot.com/" class="btn">Favorite</a></p> </div> </div> </li>')
-                    
+       $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="'+documentImage+'" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ "Pages: " + numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <button type="button" onClick="subscribe(authorName)" class="" id="subscribeBtnID">Favorite</a></p> </div> </div> </li>');
                     // if ((i % 4) == 0 )
                     // {   
                     //    // alert("br");
