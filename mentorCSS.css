@@ -75,7 +75,7 @@
 	color: dodgerblue;
 }
 
-#profileManagementPage{
+#profileManagementPage, #documentUploadPage, #seaOfInfluenceDiv{
 	text-align: center;
 }
 #profileDatabaseInformation{
@@ -100,7 +100,7 @@
 #viewDocumentsContainer{
 	text-align: center;
 }
-#viewDocumentsTable, #viewDocumentsDiv, #tableHeaders{
+#viewDocumentsTable, #viewDocumentsDiv, #tableHeaders, #documentUploadPageDiv, #uploadDocument, #seaOfInfluenceChart{
 	display: inline-block;
 }
 #tableHeaders{

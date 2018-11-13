@@ -11,8 +11,10 @@ var documentUploadPage = document.getElementById('documentUploadPage');
 var deleteButton = document.getElementById('viewDocsDeleteArticleButton');
 var uploadButton = document.getElementById('uploadButton');
 var helpButton = document.getElementById('helpLink');
+var seaOfInfluenceLink = document.getElementById('tableuTablesLink');
+var seaOfInfluenceDashboardButton = document.getElementById('seaOfInfluenceDashboardButton');
 
-var uploadDocument = document.getElementById('uploadDocumentLink')
+var uploadDocument = document.getElementById('uploadDocumentLink');
 var viewDocuments = document.getElementById('viewDocumentsLink');
 var idVal;
 var fNameVal;
@@ -50,6 +52,8 @@ viewDocuments.addEventListener('click', displayDocumentsPage);
 viewDocumentsDashboardButton.addEventListener('click', displayMainHomePage);
 deleteButton.addEventListener('click', deleteArticle);
 uploadButton.addEventListener('click', uploadArticle);
+seaOfInfluenceLink.addEventListener('click', displaySeaOfInfluencePage);
+seaOfInfluenceDashboardButton.addEventListener('click', displayMainHomePage);
 //loginButton.addEventListener('click', getLoggedInJob);
 //helpButton.addEventListener('click', getLoggedInJob);
 
@@ -68,6 +72,7 @@ function displayMainHomePage()
     signUpPage.style.display = 'none';
     viewDocumentsMenu.style.display = 'none';
     documentUploadPage.style.display = 'none';
+    seaOfInfluenceDiv.style.display = 'none';
     profileResultsPopulated();  
 }
 //******************************* Display Profile Management Page **************************************
@@ -100,45 +105,12 @@ function displayUploadDocumentPage(){
     documentUploadPage.style.display = 'block';
 }
 
-//*****************************     Sign Up Function           *****************************************
-/*function signUpFunction()
-{
-    var insertStatement = "Insert into CinderUser (UserName, FirstName, LastName, PhoneNumber, Email, UserPassword, Major, Gender) Values ('";
-    var addApostrophe = "'";
-    var addApostropheCommaApostrophe = "','";
-    var closingBrace = "');";
-    var userNameTbx = document.getElementById("userNameTextBox").value;
-    var firstNameTbx = document.getElementById("firstNameTextBox").value;
-    var lastNameTbx = document.getElementById("lastNameTextBox").value;
-    var mobileNumberTbx = document.getElementById("mobileNumberTextBox").value;
-    var emailTbx = document.getElementById("emailTextBox").value;
-    var passwordTbx = document.getElementById("passwordValue").value;
-    var majorTbx = document.getElementById("majorVal").value;
-    var genderTbx;
-    if (document.getElementById("genderMale").checked == true)
-    {
-    genderTbx = document.getElementById("genderMale").value;
-    }
-    else
-    {
-    genderTbx = document.getElementById("genderFemale").value; 
-    }
-    MySql.Execute(
-        "sql3.freemysqlhosting.net",              // mySQL server
-        "sql3258453",                             // login name
-        "3FtHyAYBuU",                             // login password
-        "sql3258453",                             // database name
-        insertStatement.concat(userNameTbx.concat(addApostropheCommaApostrophe.concat(firstNameTbx.concat(addApostropheCommaApostrophe.concat(lastNameTbx.concat(addApostropheCommaApostrophe.concat(mobileNumberTbx.concat(addApostropheCommaApostrophe.concat(emailTbx.concat(addApostropheCommaApostrophe.concat(passwordTbx.concat(addApostropheCommaApostrophe.concat(majorTbx.concat(addApostropheCommaApostrophe.concat(genderTbx.concat(closingBrace)))))))))))))))),
-        function (data) {
-        document.getElementById("signUpOutput").innerHTML = JSON.stringify(data,null,2);
-        });
-    /*welcomeUserLabel.innerHTML = document.getElementById('userNameTextBox').value;
-    welcomeUserLabel.value = document.getElementById('userNameTextBox').value;
-    nameIdGoingLabel.innerHTML = document.getElementById('userNameTextBox').value;
-    nameIdGoingLabel.value = document.getElementById('userNameTextBox').value;
-
+//******************************** Display Sea Of Influence Page **********************************************
+function displaySeaOfInfluencePage(){
+    mentorShareMenu.style.display = 'none';
+    var seaOfInfluenceDiv = document.getElementById('seaOfInfluenceDiv');
+    seaOfInfluenceDiv.style.display = 'block';
 }
-*/
 
 //*****************************     LoginFunction           *****************************************
 function checkUsernamePassword()
