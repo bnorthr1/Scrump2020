@@ -880,3 +880,113 @@ function getLoggedInJob() {
             }
         );
 }
+
+function searchDatabase()
+{
+var selectStatement = "Select CreatorFirstName, CreatorLastName, CreationDate, TimesShared, Genre, ArticleName, ArticleUrl, PageLength From MentorShareArticle Where ArticleName like '%";
+    var searchTerm = document.getElementById('searchBarInput').value;
+    //alert(searchTerm);
+    var middleStatement = "%' OR Genre like '%";
+    var endStatement = "%';";
+    var searchDataArray = [1000,30];
+
+    $("#documentHolder").empty();
+
+    //alert("jobVal:");
+    //alert(jobVal);
+
+    MySql.Execute(
+        "sql3.freemysqlhosting.net",              // mySQL server
+        "sql3258453",                             // login name
+        "3FtHyAYBuU",                             // login password
+        "sql3258453",                             // database to use
+        selectStatement.concat(searchTerm.concat(middleStatement.concat(searchTerm.concat(endStatement)))),                          // SQL query string
+            function (searchDataHere) {
+                    var searchData = JSON.stringify(searchDataHere);
+                    //alert(jobData.length);
+                    //alert(searchData);
+
+                    //alert(idVal);
+                    if (searchData.length > 100)
+                    {
+
+                    for (var i = 0; i < 9; i++) {                        
+                        
+                            searchDataArray[i,0] = searchData.search("CreatorFirstName\":\"");
+                            //alert(searchDataArray[i,0]);
+                            searchDataArray[i,1] = searchData.search("\",\"CreatorLastName");
+                            //alert(searchDataArray[i,1]);
+                            searchDataArray[i,2] = searchData.substring(searchDataArray[i,0]+19, searchDataArray[i,1]);//First Name
+                            //alert(searchDataArray[i,2]);
+                            searchDataArray[i,3] = searchData.search("CreatorLastName\":\"");
+                            //alert(searchDataArray[0,3]);
+                            searchDataArray[i,4] = searchData.search("\",\"CreationDate");
+                            //alert(searchDataArray[0,4]);
+                            searchDataArray[i,5] = searchData.substring(searchDataArray[i,3]+18, searchDataArray[i,4]); //Last Name
+                            //alert(searchDataArray[i,5]);
+                            searchDataArray[i,6] = searchData.search("Genre\":\"");
+                            searchDataArray[i,7] = searchData.search("\",\"ArticleName");
+                            searchDataArray[i,8] = searchData.substring(searchDataArray[i,6]+8, searchDataArray[i,7]); //Genre
+                            //alert(searchDataArray[i,8]);
+                            searchDataArray[i,9] = searchData.search("ArticleName\":\"");
+                            searchDataArray[i,10] = searchData.search("\",\"ArticleUrl");
+                            searchDataArray[i,11] = searchData.substring(searchDataArray[i,9]+14, searchDataArray[i,10]); //Article Name
+                            //alert(searchDataArray[i,11]);
+                            searchDataArray[i,12] = searchData.search("CreationDate\":\"");
+                            searchDataArray[i,13] = searchData.search("\",\"TimesShared");
+                            searchDataArray[i,14] = searchData.substring(searchDataArray[i,12]+15, searchDataArray[i,13]-9); //Creation Date
+                            //alert(searchDataArray[i,14]);
+                            searchDataArray[i,15] = searchData.search("PageLength\":\"");
+                            searchDataArray[i,16] = searchData.search("\"\}");
+                            searchDataArray[i,17] = searchData.substring(searchDataArray[i,15]+13, searchDataArray[i,16]); // Page Length
+                            //alert(searchDataArray[i,17]);
+                            searchDataArray[i,18] = searchData.search("ArticleUrl\":\"");
+                            searchDataArray[i,19] = searchData.search("\",\"PageLength");
+                            searchDataArray[i,20] = searchData.substring(searchDataArray[i,18]+13, searchDataArray[i,19]); //article URl
+                            //alert(searchDataArray[i,20]);
+                            searchDataArray[i,21] = searchData.substring(searchDataArray[i,0]-21, searchDataArray[i,19]+3);
+
+            //                 var url;
+            // var img;
+            // var documentName;
+            // var authorName;
+            // var dateOfPublish;
+            // var numberOfPages; 
+            authorName = searchDataArray[i,2] + " " + searchDataArray [i,5];
+            documentName = searchDataArray[i,11];
+            dateOfPublish = searchDataArray[i,14];
+            numberOfPages = searchDataArray[i,17];
+            url = searchDataArray[i,20];
+            var genre = searchDataArray[i,8]; //Genre
+            //alert(genre);
+            // alert(authorName);
+            // alert(documentName);
+            // alert(dateOfPublish);
+            // alert(numberOfPages);
+            // alert(url);
+
+
+
+
+                                //alert(searchDataArray[i,21]);
+                                var searchData = searchData.replace(searchDataArray[i,21], "");
+
+                                //alert(getInfo);
+
+                                //test upload
+        //$("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>Tableau Analytics</h5> <pre>Tom Jerry<br>10/23/2018<br>1 Page</pre> <p><a href="#" class="btn btn-primary">Open</a> <a href="#" class="btn">Favorite</a></p> </div> </div> </li>')
+        //upload with variables (This is the final code, just waiting on SQL to populate variables)
+        $("#documentHolder").append('<li class="documentViewer" class="span4"> <div class="thumbnail"> <img src="DocExample.png" alt=""> <div class="caption"> <h5>'+ documentName +'</h5> <pre>'+ authorName +'<br>'+ dateOfPublish +'<br>'+ "Pages: " + numberOfPages +'</pre> <p><a href="'+url+'" class="btn btn-primary">Open</a> <button type="button" onLoad="subscribe(authorName)" class="" id="subscribeBtnID">Favorite</a></p> </div> </div> </li>')
+                    
+                    // if ((i % 4) == 0 )
+                    // {   
+                    //    // alert("br");
+                    //     //$("#documentHolder").append('<br>')
+                    // }
+
+                    }
+                }
+               
+            }
+        );
+}
